@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fsj.dao.CityMapper">
+    <sql id="Base_Column_List">
+        id, name, state, country
+    </sql>
+    <resultMap id="BaseResultMap" type="com.fsj.entity.City">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="state" property="state"/>
+        <result column="country" property="country"/>
+    </resultMap>
+
+    <select id="fuzzyQuery" resultMap="BaseResultMap">
+        SELECT * FROM CITY
+        WHERE 1>0
+        <if test="name != null and name != '' ">
+            <bind name="fuzzyname" value=" '%'+name+'%' "/>
+            AND UPPER(name) like #{fuzzyname, jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--<select id="queryByState" parameterType="java.lang.String" resultType="">-->
+    <!--SELECT-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--FROM city-->
+    <!--WHERE state=#{state}-->
+    <!--</select>-->
+</mapper>
